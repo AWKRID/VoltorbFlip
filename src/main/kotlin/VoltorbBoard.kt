@@ -6,6 +6,7 @@ class VoltorbBoard(level: Int) {
     private val rowHint: Array<Pair<Int, Int>> = Array(5) { Pair(0, 0) }
     private val colHint: Array<Pair<Int, Int>> = Array(5) { Pair(0, 0) }
     private var totalCoin = 0
+
     init {
         makeBoard(level)
         setHint()
@@ -24,16 +25,20 @@ class VoltorbBoard(level: Int) {
         return board[pos.first][pos.second].first
     }
 
-    fun printBoardRow(row: Int){
-        for(i in 0 .. 4){
+    fun printBoardRow(row: Int) {
+        for (i in 0..4) {
             printCard(board[row][i])
         }
         showRowHint(row)
     }
 
+    fun getTotalCoins(): Int {
+        return totalCoin
+    }
 
-    private fun printCard(card: Pair<Int,Boolean>){
-        if(!card.second) print(" x  ")
+
+    private fun printCard(card: Pair<Int, Boolean>) {
+        if (!card.second) print(" x  ")
         else print(" ${card.first}  ")
     }
 
@@ -43,15 +48,15 @@ class VoltorbBoard(level: Int) {
         val randomArr = makeRandomIntArray(25)
         var idx = 0
         repeat(boardInfo[0]) {
-            board[randomArr[idx] / 5][randomArr[idx] % 5] = Pair(2,false)
+            board[randomArr[idx] / 5][randomArr[idx] % 5] = Pair(2, false)
             idx++
         }
         repeat(boardInfo[1]) {
-            board[randomArr[idx] / 5][randomArr[idx] % 5] = Pair(3,false)
+            board[randomArr[idx] / 5][randomArr[idx] % 5] = Pair(3, false)
             idx++
         }
         repeat(boardInfo[2]) {
-            board[randomArr[idx] / 5][randomArr[idx] % 5] = Pair(0,false)
+            board[randomArr[idx] / 5][randomArr[idx] % 5] = Pair(0, false)
             idx++
         }
     }
