@@ -19,7 +19,12 @@ class User {
     fun moveRight() {
         if (xPos < 4) xPos++
     }
-    fun increaseCoin(rewards : Int) {
+
+    fun increaseCoin(rewards: Int) {
         coin += rewards
+    }
+
+    fun getUserPos(): Pair<Int, Int> {
+        return Pair(yPos, xPos)
     }
 }
