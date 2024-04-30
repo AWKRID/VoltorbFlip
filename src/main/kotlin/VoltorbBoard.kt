@@ -5,18 +5,18 @@ class VoltorbBoard(level: Int) {
     private var board: Array<Array<Pair<Int, Boolean>>> = Array(5) { Array(5) { Pair(1, false) } }
     private val rowHint: Array<Pair<Int, Int>> = Array(5) { Pair(0, 0) }
     private val colHint: Array<Pair<Int, Int>> = Array(5) { Pair(0, 0) }
-
+    private var totalCoin = 0
     init {
         makeBoard(level)
         setHint()
     }
 
-    fun showRowHint(row: Int) {
-        print("${rowHint[row].first}|${rowHint[row].second}")
+    private fun showRowHint(row: Int) {
+        print("${rowHint[row].first}/${rowHint[row].second}")
     }
 
     fun showColHint(col: Int) {
-        print("${colHint[col].first}|${colHint[col].second}")
+        print("${colHint[col].first}/${colHint[col].second} ")
     }
 
     fun flipCard(pos: Pair<Int, Int>): Int {
@@ -24,8 +24,22 @@ class VoltorbBoard(level: Int) {
         return board[pos.first][pos.second].first
     }
 
+    fun printBoardRow(row: Int){
+        for(i in 0 .. 4){
+            printCard(board[row][i])
+        }
+        showRowHint(row)
+    }
+
+
+    private fun printCard(card: Pair<Int,Boolean>){
+        if(!card.second) print(" x  ")
+        else print(" ${card.first}  ")
+    }
+
     private fun makeBoard(level: Int) {
         val boardInfo = boardRules[level - 1].random()
+        totalCoin = boardInfo[3]
         val randomArr = makeRandomIntArray(25)
         var idx = 0
         repeat(boardInfo[0]) {

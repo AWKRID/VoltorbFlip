@@ -26,6 +26,9 @@ val boardRules = listOf(
         listOf(2,4,10,324),
     ),
 )
+fun printDashedLine(){
+    println("-----------------------------")
+}
 
 fun makeRandomIntArray(size : Int): IntArray {
     val numberArray = IntArray(size) { it }
