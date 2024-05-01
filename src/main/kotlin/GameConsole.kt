@@ -8,6 +8,7 @@ class GameConsole {
     private var currentCoin = 0
     private var isBombDetected = false
     private var isCleared = false
+    private var isStop = false
     private var flipCount = 0
     private val user = User()
 
@@ -51,6 +52,7 @@ class GameConsole {
         showBoard()
         while (true) {
             controlUser()
+            if (isStop) return
             showBoard()
             if (isBombDetected) {
                 showFailMessage()
@@ -82,6 +84,7 @@ class GameConsole {
         println("WASD키를 활용하여 게임 보드를 이동할 수 있습니다.")
         println("원하는 방향의 키를 입력 후 Enter키를 누르면 이동합니다.")
         println("현재 자리의 카드를 확인하고 싶은 경우 C를 입력하여 확인합니다.")
+        println("현재 게임을 종료하고 싶은 경우 QUIT을 입력해주세요")
         printDashedLine()
     }
 
@@ -122,6 +125,7 @@ class GameConsole {
             "s", "S" -> user.moveDown()
             "d", "D" -> user.moveRight()
             "c", "C" -> checkCard()
+            "QUIT" -> stopGame()
         }
     }
 
@@ -170,6 +174,12 @@ class GameConsole {
         printDashedLine()
     }
 
+    private fun stopGame() {
+        println("현재 게임을 종료합니다.")
+        println("$currentCoin C을 획득했습니다.")
+        printDashedLine()
+        isStop = true
+    }
 
     private fun checkGameCleared() {
         isCleared = currentCoin == voltorbBoard.getTotalCoins()
