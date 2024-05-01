@@ -46,6 +46,25 @@ class GameConsole {
         printDashedLine()
     }
 
+    private fun startGame() {
+        initGame()
+        showBoard()
+        while (true) {
+            controlUser()
+            showBoard()
+            if (isBombDetected) {
+                showFailMessage()
+                break
+            }
+            if (isCleared) {
+                showClearMessage()
+                user.increaseCoin(currentCoin)
+                break
+            }
+        }
+        setLevel()
+    }
+
     private fun tutorialGame() {
         println("<게임 설명 보기>")
         printDashedLine()
@@ -71,6 +90,27 @@ class GameConsole {
         printDashedLine()
         println("수집한 코인: ${user.getUserCoin()} C")
         println("현재 게임에서 모은 코인: $currentCoin")
+        printDashedLine()
+    }
+
+    private fun showBoard() {
+        showLevelAndUserCoin()
+        val userPos = user.getUserPos()
+        for (row in 0..4) {
+            voltorbBoard.printBoardRow(row)
+            println()
+            if (row != userPos.first) println()
+            else {
+                repeat(userPos.second) {
+                    print("    ")
+                }
+                println(" ^  ")
+            }
+        }
+        for (col in 0..4) {
+            voltorbBoard.showColHint(col)
+        }
+        println()
         printDashedLine()
     }
 
@@ -102,25 +142,6 @@ class GameConsole {
         checkGameCleared()
     }
 
-
-    private fun startGame() {
-        initGame()
-        showBoard()
-        while (true) {
-            controlUser()
-            showBoard()
-            if (isBombDetected) {
-                showFailMessage()
-                break
-            }
-            if (isCleared) {
-                showClearMessage()
-                user.increaseCoin(currentCoin)
-                break
-            }
-        }
-        setLevel()
-    }
 
     private fun increaseLevel() {
         val maxLevel = boardRules.size
@@ -154,24 +175,5 @@ class GameConsole {
         isCleared = currentCoin == voltorbBoard.getTotalCoins()
     }
 
-    private fun showBoard() {
-        showLevelAndUserCoin()
-        val userPos = user.getUserPos()
-        for (row in 0..4) {
-            voltorbBoard.printBoardRow(row)
-            println()
-            if (row != userPos.first) println()
-            else {
-                repeat(userPos.second) {
-                    print("    ")
-                }
-                println(" ^  ")
-            }
-        }
-        for (col in 0..4) {
-            voltorbBoard.showColHint(col)
-        }
-        println()
-        printDashedLine()
-    }
+
 }
