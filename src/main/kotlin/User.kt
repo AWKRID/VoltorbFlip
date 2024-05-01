@@ -27,4 +27,8 @@ class User {
     fun getUserPos(): Pair<Int, Int> {
         return Pair(yPos, xPos)
     }
+
+    fun getUserCoin(): Int {
+        return coin
+    }
 }
