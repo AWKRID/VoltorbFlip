@@ -21,6 +21,7 @@ class VoltorbBoard(level: Int) {
     }
 
     fun flipCard(pos: Pair<Int, Int>): Int {
+        if (board[pos.first][pos.second].second) return 1
         board[pos.first][pos.second] = board[pos.first][pos.second].copy(second = true)
         return board[pos.first][pos.second].first
     }

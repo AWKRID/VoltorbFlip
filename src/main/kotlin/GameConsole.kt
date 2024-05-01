@@ -1,16 +1,19 @@
 package org.example
 
+import kotlin.math.max
+
 class GameConsole {
-    private var level: Int = 2
-    private val voltorbBoard = VoltorbBoard(level)
+    private var level: Int = 1
+    private var voltorbBoard = VoltorbBoard(level)
     private var currentCoin = 0
     private var isBombDetected = false
+    private var isCleared = false
+    private var flipCount = 0
     private val user = User()
 
 
-
-    fun run(){
-        while(true) {
+    fun run() {
+        while (true) {
             printMenu()
             when (readln()) {
                 "1" -> startGame()
@@ -24,18 +27,24 @@ class GameConsole {
         }
     }
 
+    private fun initGame() {
+        voltorbBoard = VoltorbBoard(level)
+        isBombDetected = false
+        flipCount = 0
+        currentCoin = 0
+        isCleared = false
+    }
 
-
-    private fun printMenu(){
+    private fun printMenu() {
         println("찌리리공 뒤집기 게임에 오신 것을 환영합니다!")
-        println("찌리리공 뒤집기 Lv. $level 을 플레이 하시겠습니까?")
+        println("찌리리공 뒤집기 Lv. ${level}로 플레이 하시겠습니까?")
         println("1. 플레이한다.")
         println("2. 게임 설명 보기")
         println("3. 종료하기")
         printDashedLine()
     }
 
-    private fun tutorial(){
+    private fun tutorial() {
         println("<게임 설명 보기>")
         printDashedLine()
         println("- 찌리리공 뒤집기는 카드를 뒤집어 숫자를 찾아내는 게임입니다.")
@@ -46,7 +55,7 @@ class GameConsole {
         printDashedLine()
     }
 
-    private fun showLevelAndUserCoin(){
+    private fun showLevelAndUserCoin() {
         println("찌리리공 뒤집기 Lv. $level")
         printDashedLine()
         println("수집한 코인: ${user.getUserCoin()} C")
@@ -65,6 +74,11 @@ class GameConsole {
         }
     }
 
+    private fun setLevel() {
+        if (isCleared) increaseLevel()
+        else decreaseLevel()
+    }
+
     private fun checkCard() {
         val userPos = user.getUserPos()
         val coin = voltorbBoard.flipCard(userPos)
@@ -73,37 +87,64 @@ class GameConsole {
             return
         }
         if (currentCoin == 0) currentCoin = coin else currentCoin *= coin
+        flipCount++
+        checkGameCleared()
     }
 
 
     private fun startGame() {
-        currentCoin = 0
-        isBombDetected = false
-        while (true) {
-            showLevelAndUserCoin()
-            showBoard()
-            controlUser()
-            if (isBombDetected || checkGameCleared()) break
-        }
+        initGame()
         showBoard()
-        if (isBombDetected) {
-            println("게임에 실패했습니다!\n 메인메뉴로 돌아갑니다.")
+        while (true) {
+            controlUser()
+            showBoard()
+            if (isBombDetected) {
+                showFailMessage()
+                break
+            }
+            if (isCleared) {
+                showClearMessage()
+                user.increaseCoin(currentCoin)
+                break
+            }
         }
-        if (checkGameCleared()) {
-            println("모든 2와 3을 찾았습니다!")
-            println("$currentCoin C을 획득했습니다!")
-            user.increaseCoin(currentCoin)
-            printDashedLine()
-        }
+        setLevel()
+    }
 
+    private fun increaseLevel() {
+        val maxLevel = boardRules.size
+        if (level == maxLevel) return
+        level++
+        println("게임 레벨이 Lv. ${level}으로 올랐습니다.\n다음 게임에서 받을 수 있는 동전이 늘어납니다!")
+        printDashedLine()
+    }
+
+    private fun decreaseLevel() {
+        if (flipCount >= level) return
+        level = max(flipCount, 1)
+        println("게임 레벨이 Lv. ${level}로 내려갔습니다.")
+        printDashedLine()
+    }
+
+    private fun showFailMessage() {
+        println("게임에 실패했습니다!\n 메인메뉴로 돌아갑니다.")
+        printDashedLine()
+    }
+
+    private fun showClearMessage() {
+        println("게임 클리어~!!")
+        println("숨어 있던 2와 3의 카드를 모두 찾았습니다!")
+        println("$currentCoin C을 획득했습니다!")
+        printDashedLine()
     }
 
 
-    private fun checkGameCleared(): Boolean {
-        return currentCoin == voltorbBoard.getTotalCoins()
+    private fun checkGameCleared() {
+        isCleared = currentCoin == voltorbBoard.getTotalCoins()
     }
 
     private fun showBoard() {
+        showLevelAndUserCoin()
         val userPos = user.getUserPos()
         for (row in 0..4) {
             voltorbBoard.printBoardRow(row)
