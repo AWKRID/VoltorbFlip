@@ -17,8 +17,9 @@ class GameConsole {
             printMenu()
             when (readln()) {
                 "1" -> startGame()
-                "2" -> tutorial()
-                "3" -> return
+                "2" -> tutorialGame()
+                "3" -> tutorialMove()
+                "4" -> return
                 else -> {
                     println("올바르지 않은 입력입니다.")
                     continue
@@ -40,11 +41,12 @@ class GameConsole {
         println("찌리리공 뒤집기 Lv. ${level}로 플레이 하시겠습니까?")
         println("1. 플레이한다.")
         println("2. 게임 설명 보기")
-        println("3. 종료하기")
+        println("3, 조작법 설명 보기")
+        println("4. 종료하기")
         printDashedLine()
     }
 
-    private fun tutorial() {
+    private fun tutorialGame() {
         println("<게임 설명 보기>")
         printDashedLine()
         println("- 찌리리공 뒤집기는 카드를 뒤집어 숫자를 찾아내는 게임입니다.")
@@ -52,6 +54,15 @@ class GameConsole {
         println("- 가장 먼저 뒤집은 숫자는 획득 동전에 더해지며,\n그 이후 뒤집은 숫자는 획득 동전에 곱해집니다.")
         println("- 만약 찌리리공 카드를 뒤집은 경우 게임이 종료되며\n해당 게임에서 얻은 동전을 모두 잃습니다.")
         println("- 숨겨져 있는 2와 3의 숫자를 모두 찾으면 게임을 승리합니다!")
+        printDashedLine()
+    }
+
+    private fun tutorialMove() {
+        println("<조작법 설명 보기>")
+        printDashedLine()
+        println("WASD키를 활용하여 게임 보드를 이동할 수 있습니다.")
+        println("원하는 방향의 키를 입력 후 Enter키를 누르면 이동합니다.")
+        println("현재 자리의 카드를 확인하고 싶은 경우 C를 입력하여 확인합니다.")
         printDashedLine()
     }
 

@@ -84,6 +84,5 @@ class VoltorbBoard(level: Int) {
             }
             colHint[col] = Pair(coinCount, bombCount)
         }
-
     }
 }
