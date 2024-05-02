@@ -35,6 +35,7 @@ class GameConsole {
         isBombDetected = false
         flipCount = 0
         currentCoin = 0
+        isStop = false
         isCleared = false
     }
 
@@ -180,6 +181,7 @@ class GameConsole {
         println("현재 게임을 종료합니다.")
         println("$currentCoin C을 획득했습니다.")
         printDashedLine()
+        user.increaseCoin(currentCoin)
         isStop = true
     }
 
