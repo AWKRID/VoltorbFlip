@@ -31,4 +31,8 @@ class User {
     fun getUserCoin(): Int {
         return coin
     }
+    fun resetPos(){
+        yPos = 0
+        xPos = 0
+    }
 }

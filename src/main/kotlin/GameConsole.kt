@@ -30,6 +30,7 @@ class GameConsole {
     }
 
     private fun initGame() {
+        user.resetPos()
         voltorbBoard = VoltorbBoard(level)
         isBombDetected = false
         flipCount = 0
@@ -93,7 +94,7 @@ class GameConsole {
         println("찌리리공 뒤집기 Lv. $level")
         printDashedLine()
         println("수집한 코인: ${user.getUserCoin()} C")
-        println("현재 게임에서 모은 코인: $currentCoin")
+        println("현재 게임에서 모은 코인: $currentCoin C")
         printDashedLine()
     }
 
