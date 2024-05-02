@@ -40,7 +40,7 @@ class VoltorbBoard(level: Int) {
 
     private fun printCard(card: Pair<Int, Boolean>) {
         if (!card.second) print(" x  ")
-        else if(card.first == 0) print(" \uD83D\uDCA3 ")
+        else if (card.first == 0) print(" \uD83D\uDCA3 ")
         else print(" ${card.first}  ")
     }
 
